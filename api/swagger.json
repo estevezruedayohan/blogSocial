@@ -1,0 +1,120 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "BLOG SOCIAL - OpenAPI 1.0",
+    "description": "Red social de prueba como proyecto Node. ",
+    "contact": {
+      "email": "estevezruedayohan@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operaciones sobre el usuario"
+    }
+  ],
+  "paths": {
+    "/user": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Listar todos los usuarios",
+        "description": "Traer la lista de todos los usuarios",
+        "operationId": "listUsers",
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Crear un usuario",
+        "description": "Crear un usuario en la aplicación.",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Usuario creado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "stlaske12da"
+          },
+          "userName": {
+            "type": "string",
+            "example": "theUser"
+          },
+          "password": {
+            "type": "string",
+            "example": "asdfou6789asduf"
+          },
+          "isBlock": {
+            "type": "boolean",
+            "example": true
+          },
+          "role": {
+            "type": "string",
+            "example": "admin"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "01-24-2022:01-00-00"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

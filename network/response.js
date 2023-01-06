@@ -1,6 +1,6 @@
 function success(req, res, message, status) {
   let statusCode = status || 200;
-  let messageStatus = message || "";
+  let messageStatus = message || "Registro exitoso";
   res.send({
     error: false,
     status: statusCode,
