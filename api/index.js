@@ -6,6 +6,7 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDoc = require("./swagger");
 const { config } = require("./config/config");
 const user = require("./components/user/network");
+const auth = require("./components/auth/network");
 
 // app.use("/", (req, res) => {
 //   res.send("Este es el SERVER de SOCIAL MEDIA - TVEZ");
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 // ROUTER
 app.use("/api/user", user);
+app.use("/api/auth", auth);
 app.use(
   "/api-docs",
   swaggerUI.serve,

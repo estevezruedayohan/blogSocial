@@ -6,7 +6,7 @@ const db = {
 };
 
 async function list(table) {
-  return await db[table];
+  return (await db[table]) || [];
 }
 
 async function get(table, id) {
@@ -14,7 +14,19 @@ async function get(table, id) {
     (item) => item.id === id
   );
   if (user === undefined) {
-    throw false;
+    throw new Error("Información inválida");
+  }
+  return user;
+}
+
+async function query(table, filter) {
+  const keyFilter = Object.keys(filter);
+  const key = keyFilter[0];
+  const user = await db[table].find(
+    (item) => item[key] === filter[key]
+  );
+  if (user === undefined) {
+    throw new Error("Información inválida");
   }
   return user;
 }
@@ -51,4 +63,4 @@ async function remove(table, id) {
   }
 }
 
-module.exports = { list, get, upsert, remove };
+module.exports = { list, get, upsert, remove, query };
