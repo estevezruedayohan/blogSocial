@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const TABLE = "auth";
 const auth = require("./../../../jwt");
 
@@ -7,7 +8,7 @@ module.exports = function (bdInjected) {
     require("./../../../store/dummy");
   }
 
-  function upsert(data) {
+  async function upsert(data) {
     let authData = {
       id: data.id,
     };
@@ -15,7 +16,10 @@ module.exports = function (bdInjected) {
       authData.username = data.username;
     }
     if (data.password) {
-      authData.password = data.password;
+      authData.password = await bcrypt.hash(
+        data.password,
+        10
+      );
     }
 
     return store.upsert(TABLE, authData);
@@ -25,12 +29,15 @@ module.exports = function (bdInjected) {
     const data = await store.query(TABLE, {
       username: username,
     });
-    if (data.password === password) {
-      const token = auth.sign(data);
-      return token;
-    } else {
-      throw new Error("Información inválida.");
-    }
+    return bcrypt
+      .compare(password, data.password)
+      .then((isMatch) => {
+        if (isMatch) {
+          return auth.sign(data);
+        } else {
+          throw new Error("Información inválida.");
+        }
+      });
   }
 
   return {

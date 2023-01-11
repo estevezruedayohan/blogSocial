@@ -44,6 +44,7 @@ async function upsert(table, data) {
   }
 
   const newUser = await db[table].push(data);
+  console.log(db[table]);
 
   return newUser;
 }
